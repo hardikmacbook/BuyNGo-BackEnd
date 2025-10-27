@@ -415,7 +415,7 @@ const MagicBento = ({
 
   useEffect(() => {
     // API se data fetch karo
-    fetch('http://localhost:3000/core-values') // Apne API endpoint se replace karo
+    fetch('https://3000-firebase-dilipo-1754240711467.cluster-6dx7corvpngoivimwvvljgokdw.cloudworkstations.dev/core-values') // Apne API endpoint se replace karo
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');

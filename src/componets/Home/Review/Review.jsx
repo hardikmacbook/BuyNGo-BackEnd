@@ -6,10 +6,10 @@ const CustomerReviews = () => {
   const [reviews, setReviews] = React.useState([]);
   
     useEffect(() => {
-      axios.get("http://localhost:3000/review").then(response => {
+      axios.get("https://3000-firebase-dilipo-1754240711467.cluster-6dx7corvpngoivimwvvljgokdw.cloudworkstations.dev/review").then(response => {
         setReviews(response.data);
       }).catch(error => {
-        console.error("Error fetching core values:", error);
+        console.error("Error fetching reviews:", error);
       });
     }, []);
 
