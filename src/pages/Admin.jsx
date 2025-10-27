@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const API_BASE = "http://localhost:3000";
 
-// Product blank schema
 const emptyProduct = {
   product_id: "",
   name: "",
@@ -23,19 +24,16 @@ const emptyProduct = {
   images: ["", "", ""]
 };
 
-// Login form component
 function AdminLogin({ onLogin }) {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
   const [error, setError] = useState("");
 
-  // For demonstration, use hardcoded values:
   const ADMIN_ID = "buyngo-admin";
   const ADMIN_PW = "support@buyngo.com"; // Change this!
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // case-sensitive check
     if (id === ADMIN_ID && pw === ADMIN_PW) {
       onLogin();
     } else {
@@ -76,8 +74,6 @@ function AdminLogin({ onLogin }) {
   );
 }
 
-
-// Product Editor (unchanged)
 function ProductEditor({ product, onChange }) {
   const [local, setLocal] = useState(product);
 
@@ -133,7 +129,6 @@ function ProductEditor({ product, onChange }) {
   );
 }
 
-// HeroSliderEditor (unchanged)
 function HeroSliderEditor({ data, onChange }) {
   const [local, setLocal] = useState(data);
 
@@ -156,7 +151,6 @@ function HeroSliderEditor({ data, onChange }) {
   );
 }
 
-// AdminSection (unchanged)
 function AdminSection({ title, endpoint, sample }) {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -199,7 +193,10 @@ function AdminSection({ title, endpoint, sample }) {
   };
 
   const closeEditor = () => {
-    setEditorOpenId(null); setEditorText(""); setProductDraft(emptyProduct); setSliderDraft(sample);
+    setEditorOpenId(null);
+    setEditorText("");
+    setProductDraft(emptyProduct);
+    setSliderDraft(sample);
   };
 
   const saveEditor = async () => {
@@ -244,9 +241,11 @@ function AdminSection({ title, endpoint, sample }) {
       }
       await load();
       closeEditor();
+      toast.success(isNew ? "Added successfully!" : "Updated successfully!");
     } catch (e) {
       alert("Save failed: " + e.message);
       console.error("Save error:", e);
+      toast.error("Save failed!");
     }
   };
 
@@ -257,13 +256,20 @@ function AdminSection({ title, endpoint, sample }) {
       if (!res.ok) {
         const err = await res.text();
         let errMessage;
-        try { const errJson = JSON.parse(err); errMessage = errJson.error || errJson.details || `Delete failed ${res.status}`; }
-        catch { errMessage = `Delete failed ${res.status}: ${err.substring(0, 100)}`; }
+        try {
+          const errJson = JSON.parse(err);
+          errMessage = errJson.error || errJson.details || `Delete failed ${res.status}`;
+        } catch {
+          errMessage = `Delete failed ${res.status}: ${err.substring(0, 100)}`;
+        }
         throw new Error(errMessage);
       }
       await load();
+      toast.success("Deleted successfully!");
     } catch (e) {
-      alert("Delete failed: " + e.message); console.error("Delete error:", e);
+      alert("Delete failed: " + e.message);
+      console.error("Delete error:", e);
+      toast.error("Delete failed!");
     }
   };
 
@@ -334,7 +340,6 @@ function AdminSection({ title, endpoint, sample }) {
   );
 }
 
-// Admin Dashboard, protected by login state
 export default function Admin() {
   const [loggedIn, setLoggedIn] = useState(false);
 
@@ -381,6 +386,7 @@ export default function Admin() {
           }}
         />
       </div>
+      <ToastContainer position="bottom-right" />
     </div>
   );
 }
