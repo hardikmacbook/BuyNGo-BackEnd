@@ -234,7 +234,7 @@ app.post("/products", async (req, res) => {
       return res.status(400).json({
         error: "Missing required fields",
         details: `Required: ${missingFields.join(", ")}`,
-      });
+      }); 
     }
     data.product_id = Date.now();
     const created = await prisma.products.create({ data });
