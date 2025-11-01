@@ -5,6 +5,7 @@ import OurCoreValue from "../componets/Home/StoreValue/OurCoreValue";
 import Review from "../componets/Home/Review/Review";
 import Footer from "../componets/Footer/Footer";
 import SetPageTitle from "../componets/SetPageTitle";
+import Brand from "../componets/Home/brands/Brand";
 // import VelocityText from "../componets/Home/text/VelocityText";
 
 const Home = () => {
@@ -16,6 +17,7 @@ const Home = () => {
         <Carousel />
         {/* <VelocityText /> */}
         <OurCoreValue />
+        <Brand />
         <ProductCard />
         <Review />
         <Footer />
